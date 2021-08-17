@@ -1,0 +1,12 @@
+import java.awt.Frame;
+
+public class Tela01 {
+
+	public static void main(String[] args) {
+		Frame t01 = new Frame(); // cria objeto Frame (janela)
+		t01.setTitle("Tela 01 - Utilizando AWT"); // titulo da janela
+		t01.setSize(500, 300); // tamanho da janela horizontal x vertical
+		t01.setVisible(true);  // janela visivel 
+	}
+
+}

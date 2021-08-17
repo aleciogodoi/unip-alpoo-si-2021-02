@@ -1,0 +1,10 @@
+import java.awt.Frame;
+
+public class Tela01 {
+
+	public static void main(String[] args) {
+		Frame t01 = new Frame();
+
+	}
+
+}

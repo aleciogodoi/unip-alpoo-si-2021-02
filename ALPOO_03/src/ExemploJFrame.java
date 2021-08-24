@@ -29,8 +29,6 @@ public class ExemploJFrame extends JFrame {
 		tela2.getContentPane().setBackground(Color.black);
 		// Quando clicar no botão de fechar Automaticamente esconde e elimina o frame.
 		tela2.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		
-		
 	
 	}
 }

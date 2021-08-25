@@ -1,9 +1,7 @@
 import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-
 public class GridLayoutTest extends JFrame{
-
 	GridLayoutTest(){
 		setSize(170,270);
 		setLayout(new GridLayout(4,3));
@@ -25,5 +23,4 @@ public class GridLayoutTest extends JFrame{
 		tela.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		tela.setVisible(true);
 	}
-
 }

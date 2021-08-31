@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -15,7 +16,8 @@ public class Calculadora extends TelaBase {
 	JButton btDividir;
 	
 	Calculadora(){
-		lblResultado = new JLabel();
+		lblResultado = new JLabel("123");
+		
 		txtNumero1 = new JTextField();
 		txtNumero2 = new JTextField();
 		
@@ -30,9 +32,16 @@ public class Calculadora extends TelaBase {
 		painel.add(btSubtrair);
 		painel.add(btMultiplicar);
 		painel.add(btDividir);
-		setSize(200,150);
-		setResizable(false);
 		
+		add(lblResultado);
+		add(txtNumero1);
+		add(txtNumero2);
+		add(painel);
+		
+		setLayout(new GridLayout(4,1,5,5));
+		setSize(250,150);
+		setResizable(false);
+		setTitle("Calculadora");
 		
 	}
 	

@@ -1,7 +1,11 @@
+import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 public class Calculadora_v2 extends TelaBase {
 
@@ -39,10 +43,19 @@ public class Calculadora_v2 extends TelaBase {
 		painelBotoes.add(new JButton (","));
 		painelBotoes.add(new JButton ("="));
 		
+		JTextField txtVisor = new JTextField("0");
+		txtVisor.setHorizontalAlignment(SwingConstants.RIGHT);
+		txtVisor.setFont(new Font("Arial", 0, 50) );
+		add(BorderLayout.NORTH, txtVisor);
+		add(BorderLayout.CENTER, painelBotoes);
+		
 	}
 	
 	public static void main(String[] args) {
-
+		Calculadora_v2 calculadora = new Calculadora_v2();
+		calculadora.setTitle("Calculadora");
+		calculadora.setVisible(true);
+		calculadora.setSize(270, 400);
 	}
 
 }

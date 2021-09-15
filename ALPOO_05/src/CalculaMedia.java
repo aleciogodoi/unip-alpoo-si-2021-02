@@ -1,10 +1,13 @@
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-public class CalculaMedia extends TelaBase {
+public class CalculaMedia extends TelaBase implements ActionListener {
 	float nota1, nota2, media;
 	JButton btCalcular;
 	JButton btSair;
@@ -33,20 +36,36 @@ public class CalculaMedia extends TelaBase {
 		txtNota1 = new JTextField(); // caixa de texto para Nota 1
 		txtNota2 = new JTextField(); // caixa de texto para Nota 2
 
-		this.add(lblNota1);
-		this.add(txtNota1);
-		this.add(lblNota2);
-		this.add(txtNota2);
-		this.add(lblMedia);
-		this.add(lblValorMedia);
-		this.add(btCalcular);
-		this.add(btSair);
-		this.setVisible(true);
+		this.add(lblNota1); // adicionando label Nota 1 na Janela
+		this.add(txtNota1); // adicionando caixa de texto Nota 1 na Janela
+		this.add(lblNota2); // adicionando label Nota 2 na Janela
+		this.add(txtNota2); // adicionando caixa de texto Nota 2 na Janela
+		this.add(lblMedia); // adicionando label Média na Janela
+		this.add(lblValorMedia);  // adicionando label Valor Média na Janela
+		this.add(btCalcular);  // adicionando botão calcular na Janela
+		this.add(btSair); // adicionando botão sair na Janela
+		this.setVisible(true); // tornando Janela visivel
+
+		this.btCalcular.addActionListener(this); // setando o botão Calcular para responder ao click
+		this.btSair.addActionListener(this); // setando o botão Sair para responder ao click
 	}
 	
 	public static void main(String[] args) {
-		t01 = new CalculaMedia();
+		t01 = new CalculaMedia();  // criando um objeto do tipo CalculaMedia
+	}
+
+	// trantando o eventos de click dos botões
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btSair) {   // botão sair pressionado
+			System.exit(0);
+		} else if (e.getSource() == btCalcular) { // botão calcular pressionado
+			calcular();
+		}
 	}
 	
+	public static void calcular() {
+		JOptionPane.showMessageDialog(null, "Botão Calcular Pressionado!");
+	}
 	
 }

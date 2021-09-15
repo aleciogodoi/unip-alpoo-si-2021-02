@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -60,12 +61,28 @@ public class CalculaMedia extends TelaBase implements ActionListener {
 		if (e.getSource() == btSair) {   // botão sair pressionado
 			System.exit(0);
 		} else if (e.getSource() == btCalcular) { // botão calcular pressionado
-			calcular();
+			lblValorMedia.setText(null);
+			try {
+				nota1 = Float.valueOf(txtNota1.getText());
+				nota2 = Float.valueOf(txtNota2.getText());
+				if ( (nota1 < 0 || nota1 > 10) || (nota2 < 0 || nota2 > 10)) {
+					lblValorMedia.setText("Valor(es) Inválido(s)!");
+				}
+				else {
+					media = (nota1 + nota2) / 2;
+					lblValorMedia.setText(String.valueOf(media));
+				}
+				
+			} catch (NumberFormatException erro) {
+				lblValorMedia.setText("Somente Números!");			
+			}
+			
+			if (media >= 7.0f) {
+				lblValorMedia.setForeground(Color.blue);
+			} else {
+				lblValorMedia.setForeground(Color.red);
+			}
 		}
 	}
-	
-	public static void calcular() {
-		JOptionPane.showMessageDialog(null, "Botão Calcular Pressionado!");
-	}
-	
+		
 }

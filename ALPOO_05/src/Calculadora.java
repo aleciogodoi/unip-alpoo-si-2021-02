@@ -39,10 +39,21 @@ public class Calculadora extends TelaBase implements ActionListener{
 		painel.add(btMultiplicar);
 		painel.add(btDividir);
 		
+		this.add(lblResultado);
+		this.add(txtNumero1);
+		this.add(txtNumero2);
+		this.add(painel);
 		
+		this.setLayout(new GridLayout(4,1,5,5));
+		this.setTitle("Calculadora");
+		this.setSize(200, 150);
+		this.setResizable(false);
+
 	}
 	
 	public static void main(String[] args) {
+		Calculadora t01 = new Calculadora();
+		t01.setVisible(true);
 	}
 
 	@Override

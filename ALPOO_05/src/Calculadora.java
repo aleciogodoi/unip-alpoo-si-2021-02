@@ -49,6 +49,10 @@ public class Calculadora extends TelaBase implements ActionListener{
 		this.setSize(200, 150);
 		this.setResizable(false);
 
+		btSomar.addActionListener(this);
+		btSubtrair.addActionListener(this);
+		btMultiplicar.addActionListener(this);
+		btDividir.addActionListener(this);
 	}
 	
 	public static void main(String[] args) {
@@ -58,6 +62,32 @@ public class Calculadora extends TelaBase implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		boolean flagErro = false;
+		try {
+			numero1 = Double.valueOf(txtNumero1.getText());
+			numero2 = Double.valueOf(txtNumero2.getText());
+		} catch (NumberFormatException erro) {
+			lblResultado.setText("Somente números!");
+			flagErro = true;
+		}
+		if (!flagErro) {
+			if (e.getSource() == btSomar) {
+				resultado = numero1 + numero2;
+			} else if (e.getSource() == btSubtrair) {
+				resultado = numero1 - numero2;
+			} else if (e.getSource() == btMultiplicar) {
+				resultado = numero1 * numero2;
+			} else if (e.getSource() == btDividir) {
+				resultado = numero1 / numero2;
+			}  
+			lblResultado.setText(String.valueOf(resultado));
+		}
 	}
 
 }
+
+
+
+
+
+

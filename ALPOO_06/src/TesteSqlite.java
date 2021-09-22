@@ -6,23 +6,26 @@ import javax.swing.JOptionPane;
 
 public class TesteSqlite extends Tela implements ActionListener {
 	
-	private static Connection conn = null; 
-	private static Statement stmt;
-	static TesteSqlite x;
-	private String pathBD;
+	private static Connection conn = null; // Cria um objeto do tipo Conexão
+	private static Statement stmt;		   // Cria um objeto do tipo Comando SQL
+	static TesteSqlite x;                  // Cria um objeto do tipo TesteSqlite
+	private String pathBD;				   // Variavel auxilar para dizer onde está o Banco de Dados
 
+	// Construtor da Classe
 	TesteSqlite(){
-		this.btExecutar.addActionListener(this);
+		this.btExecutar.addActionListener(this);  // Preparando o botão executar para responder ao click
 	}
+	
+	// Metodo conectar que fazer a conexão com o banco de dados ALPOO.db
 	public Connection conectar (){
 		try	{
-			Connection c;
-			Class.forName("org.sqlite.JDBC");
-			System.out.println("Driver JDBC encontrado!");
+			Connection c;   					// Cria um objeto do tipo Conexão
+			Class.forName("org.sqlite.JDBC");   // Configurando a utilização do Driver para o BD
+			System.out.println("Driver JDBC encontrado!"); 
 			pathBD = System.getProperty("user.dir").replace("\\", "/");			
-			String bdUrl = "jdbc:sqlite:"+pathBD+"/bd/ALPOO.db";
+			String bdUrl = "jdbc:sqlite:"+pathBD+"/bd/ALPOO.db";  // monta o diretório do banco de dados
 			
-			c = DriverManager.getConnection(bdUrl); 
+			c = DriverManager.getConnection(bdUrl); // Abre a conexão com o BD
 			
 			System.out.println("Conexao realizada com sucesso! Nome da Conexao: " + c);
 			return c;

@@ -4,28 +4,26 @@ import java.sql.*;
 
 import javax.swing.JOptionPane;
 
-public class TesteSqlite extends Tela implements ActionListener {
+public class TesteMySQL extends Tela implements ActionListener {
 	
-	private static Connection conn = null; // Cria um objeto do tipo Conexão
-	private static Statement stmt;		   // Cria um objeto do tipo Comando SQL
-	static TesteSqlite x;                  // Cria um objeto do tipo TesteSqlite
-	private String pathBD;				   // Variavel auxilar para dizer onde está o Banco de Dados
+	private static Connection conn = null; 
+	private static Statement stmt;
+	static TesteMySQL x;
 
-	// Construtor da Classe
-	TesteSqlite(){
-		this.btExecutar.addActionListener(this);  // Preparando o botão executar para responder ao click
+	TesteMySQL(){
+		this.btExecutar.addActionListener(this);
 	}
-	
-	// Metodo conectar que fazer a conexão com o banco de dados ALPOO.db
 	public Connection conectar (){
 		try	{
-			Connection c;   					// Cria um objeto do tipo Conexão
-			Class.forName("org.sqlite.JDBC");   // Configurando a utilização do Driver para o BD
-			System.out.println("Driver JDBC encontrado!"); 
-			pathBD = System.getProperty("user.dir").replace("\\", "/");			
-			String bdUrl = "jdbc:sqlite:"+pathBD+"/bd/ALPOO.db";  // monta o diretório do banco de dados
-			
-			c = DriverManager.getConnection(bdUrl); // Abre a conexão com o BD
+			Connection c;
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			System.out.println("Driver JDBC encontrado!");
+
+			String bdUrl = "jdbc:mysql://localhost:3306/depto_emp?useTimezone=true&serverTimezone=UTC";
+			String bdUsuario = "ale";
+			String bdSenha = "ale";
+
+			c = DriverManager.getConnection(bdUrl,bdUsuario,bdSenha); 
 			
 			System.out.println("Conexao realizada com sucesso! Nome da Conexao: " + c);
 			return c;
@@ -54,11 +52,11 @@ public class TesteSqlite extends Tela implements ActionListener {
 
 	public void executeComando (String txtSQL){
 		try{
-			stmt = conn.createStatement();   //  Cria  comando SQL
+			stmt = conn.createStatement();
 			System.out.println("Comando: " + txtSQL);
 
 			if (txtSQL.toUpperCase().contains("SELECT")) {
-				ResultSet rs = stmt.executeQuery (txtSQL);   // Executa  comando SQL
+				ResultSet rs = stmt.executeQuery (txtSQL);
 	
 				// meta dados da tabela
 				ResultSetMetaData rsmd = rs.getMetaData();  
@@ -99,7 +97,7 @@ public class TesteSqlite extends Tela implements ActionListener {
 
 	
 	public static void main (String[] args){
-		x = new TesteSqlite();
+		x = new TesteMySQL();
 	}
 
 	public void actionPerformed(ActionEvent e) {

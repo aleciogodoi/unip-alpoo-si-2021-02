@@ -2,14 +2,21 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class Cadastro extends JFrame{
+public class Cadastro extends JFrame implements ActionListener{
 
 	JLabel lblCodigo, lblNome, lblEmail, lblTelefone, lblEndereco;
 	JTextField txtCodigo, txtNome, txtEmail, txtTelefone, txtEndereco;
@@ -17,6 +24,9 @@ public class Cadastro extends JFrame{
 	JButton btSalvar, btPesquisar, btLimpar, btSair;
 	static Cadastro t01;
 	
+	private static Connection conn = null;
+	private static Statement comandoSQL;
+	Conexao conexao = new Conexao();
 	Cadastro(){
 		this.setTitle("Cadastro Usuários");
 		this.setSize(500,200);
@@ -68,10 +78,68 @@ public class Cadastro extends JFrame{
 		this.add(painel3, BorderLayout.CENTER);
 		this.setVisible(true);
 		
+		btSalvar.addActionListener(this);
+		btLimpar.addActionListener(this);
+		btPesquisar.addActionListener(this);
+		btSair.addActionListener(this);
+		
 	}
 	
 	public static void main(String[] args) {
 		t01 = new Cadastro();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btSair) {
+			System.exit(0);
+		} else if (e.getSource() == btLimpar) {
+			limpar();
+		} else if (e.getSource() == btPesquisar) {
+			if (!(txtCodigo.getText().isEmpty())) {
+				pesquisar(txtCodigo.getText(), "IdUsuario",true);
+			}
+		}
+		
+	}
+	
+	public boolean pesquisar(String texto, String campo, boolean atualizaTela) {
+		String sql="";
+		boolean flagEncontrado=false;
+		conn = conexao.conectar();
+		try {
+			if (campo.equals("IdUsuario")) {
+				sql = "Select * from Usuario Where "+campo+" = "+texto;
+			}
+			comandoSQL = conn.createStatement();
+			ResultSet rs = comandoSQL.executeQuery(sql);
+			
+			if (rs.next()) {
+				if (atualizaTela) {
+					txtCodigo.setText(String.valueOf(rs.getInt("IdUsuario")));
+					txtNome.setText(rs.getString("nome"));
+					txtEmail.setText(rs.getString("email"));
+					txtTelefone.setText(rs.getString("telefone"));
+					txtEndereco.setText(rs.getString("endereco"));
+				}
+				flagEncontrado = true;
+			} else if (atualizaTela) {
+				JOptionPane.showMessageDialog(null, "Usuário Não Econtrado!");
+			}
+			
+			conexao.fecharConexao(conn);
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Erro execução comando \n" + comandoSQL+"\n"+e);
+		}
+		return flagEncontrado;
+	}
+	public void limpar() {
+		txtCodigo.setText(null);
+		txtNome.setText(null);
+		txtEmail.setText(null);
+		txtTelefone.setText(null);
+		txtEndereco.setText(null);
+		txtCodigo.requestFocus();
 	}
 
 }

@@ -24,7 +24,7 @@ public class Cadastro extends JFrame implements ActionListener{
 	JButton btSalvar, btPesquisar, btLimpar, btSair;
 	static Cadastro t01;
 	
-	private static Connection conn = null;
+	
 	private static Statement comandoSQL;
 	Conexao conexao = new Conexao();
 	Cadastro(){
@@ -98,18 +98,26 @@ public class Cadastro extends JFrame implements ActionListener{
 		} else if (e.getSource() == btPesquisar) {
 			if (!(txtCodigo.getText().isEmpty())) {
 				pesquisar(txtCodigo.getText(), "IdUsuario",true);
+			} else if (!(txtNome.getText().isEmpty())) {
+				pesquisar(txtNome.getText(), "nome",true);				
+			} else if (!(txtEmail.getText().isEmpty())) {
+				pesquisar(txtEmail.getText(), "email",true);				
 			}
-		}
-		
+		} else if (e.getSource() == btSalvar) {
+			salvar();
+		}	
 	}
 	
 	public boolean pesquisar(String texto, String campo, boolean atualizaTela) {
 		String sql="";
 		boolean flagEncontrado=false;
+		Connection conn = null;
 		conn = conexao.conectar();
 		try {
-			if (campo.equals("IdUsuario")) {
+			if (campo.equalsIgnoreCase("IdUsuario")) {
 				sql = "Select * from Usuario Where "+campo+" = "+texto;
+			} else {
+				sql = "Select * from Usuario Where "+campo+" like '"+texto+"'";				
 			}
 			comandoSQL = conn.createStatement();
 			ResultSet rs = comandoSQL.executeQuery(sql);
@@ -133,6 +141,46 @@ public class Cadastro extends JFrame implements ActionListener{
 		}
 		return flagEncontrado;
 	}
+
+	public void salvar() {
+		String sql;
+		String operacao;
+		
+		if (this.pesquisar(txtCodigo.getText(),"IdUsuario" , false)) {
+			sql = " Update Usuario";
+			sql+= " Set";
+			sql+= "  nome ='"+txtNome.getText()+"'";
+			sql+= " ,email ='"+txtEmail.getText()+"'";
+			sql+= " ,telefone ='"+txtTelefone.getText()+"'";
+			sql+= " ,endereco ='"+txtEndereco.getText()+"'";
+			sql+= " Where idUsuario ="+txtCodigo.getText();
+			operacao = "Alteração";
+		} else  {
+			sql = " Insert Into Usuario";
+			sql+= " Values (";
+			sql+= txtCodigo.getText();
+			sql+= " ,'"+txtNome.getText()+"'";
+			sql+= " ,'"+txtEmail.getText()+"'";
+			sql+= " ,'"+txtTelefone.getText()+"'";
+			sql+= " ,'"+txtEndereco.getText()+"'";
+			sql+= " )";
+			operacao = "Inclusão";			
+		}
+		Connection conn = null;
+		conn = conexao.conectar();
+		try {
+			comandoSQL = conn.createStatement();
+			comandoSQL.executeUpdate(sql);
+			JOptionPane.showMessageDialog(null, operacao+" realizada com sucesso!");			
+			
+		} catch(SQLException e) {
+			JOptionPane.showMessageDialog(null, "Erro execução comando \n" + comandoSQL+"\n"+e);			
+		} finally {
+			conexao.fecharConexao(conn);
+		}
+			
+	}
+	
 	public void limpar() {
 		txtCodigo.setText(null);
 		txtNome.setText(null);
